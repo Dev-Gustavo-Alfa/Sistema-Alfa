@@ -1,0 +1,310 @@
+/* Estilo básico para o layout */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+}
+
+/* Container geral */
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #2c2c2c;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombras mais sutis */
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Header das abas */
+.tabs {
+  display: flex;
+  justify-content: center;
+  background-color: #2c3e50; /* Azul mais sóbrio */
+  padding: 15px 0;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
+}
+
+.tab {
+  padding: 12px 24px;
+  margin: 0 12px;
+  cursor: pointer;
+  font-weight: bold;
+  background-color: #3498db;
+  color: white;
+  border-radius: 50px; /* Bordas mais arredondadas */
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.tab:hover {
+  background-color: #2980b9;
+  transform: scale(1.05); /* Efeito sutil de hover */
+}
+
+.tab.active {
+  background-color: #007bff;
+  transform: scale(1.1); /* Destacar a aba ativa */
+  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3); /* Sombra para destacar a aba ativa */
+}
+
+/* Container de sub-abas */
+.sub-tabs-container {
+  display: flex;
+  justify-content: center;
+  background-color: #34495e; /* Azul escuro, mais sofisticado */
+  padding: 12px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  border-bottom: 1px solid #34495e;
+}
+
+.sub-tab {
+  color: #ecf0f1;
+  padding: 12px 22px;
+  cursor: pointer;
+  font-weight: bold;
+  border-radius: 30px;
+  margin: 0 8px;
+  transition: background-color 0.3s ease, color 0.2s ease;
+}
+
+.sub-tab:hover {
+  background-color: #1abc9c;
+  color: white;
+}
+
+.sub-tab.active {
+  background-color: #16a085;
+  color: white;
+  box-shadow: 0 3px 10px rgba(22, 160, 133, 0.2); /* Sombra suave nas abas ativas */
+}
+
+/* Conteúdo das abas */
+.tab-content {
+  padding: 25px;
+  background-color: #fff;
+  color: #333;
+  flex-grow: 1;
+  overflow-y: auto;
+  border-top: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Sombra nas áreas de conteúdo */
+}
+
+/* Tabela */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+.table-indicacao {
+  width: 90%;  /* Ajusta a largura da tabela para 90% do tamanho da tela */
+  max-width: 1000px;  /* Limita a largura máxima da tabela */
+  border-collapse: collapse;
+  margin: 20px auto; /* Centraliza a tabela na tela */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.table-indicacao th, .table-indicacao td {
+  padding: 12px;
+  text-align: center; /* Centraliza o texto das células da tabela */
+  border-bottom: 1px solid #ddd;
+}
+.table-indicacao th {
+  background-color: #2980b9;
+  color: white;
+  font-weight: bold;
+}
+.table-indicacao tr:hover {
+  background-color: #f2f2f2;
+}
+
+.table-indicacao td {
+  word-wrap: break-word;
+  max-width: 250px; /* Define uma largura máxima para cada célula */
+  overflow: hidden;
+}
+  
+
+th, td {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #2980b9;
+  color: white;
+  font-weight: bold;
+  border-top: 2px solid #2980b9; /* Linha mais destacada no topo */
+}
+
+tr:hover {
+  background-color: #ecf0f1;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 25px;
+}
+
+.pagination button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  cursor: pointer;
+  border-radius: 25px;
+  margin: 0 10px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.pagination button:hover {
+  background-color: #2980b9;
+  transform: scale(1.05);
+}
+
+.pagination button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Estilo de botões e entradas */
+button, input {
+  border-radius: 8px;
+}
+
+button {
+  padding: 12px 24px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background-color: #2980b9;
+  transform: scale(1.05);
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Filtros */
+.filters {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap; /* Permite que os filtros se ajustem e não ultrapassem */
+  margin-bottom: 20px;
+  gap: 15px; /* Espaço entre os filtros */
+  max-width: 100%; /* Garante que os filtros não ultrapassem a largura da tela */
+  box-sizing: border-box; /* Inclui o padding e border no cálculo da largura */
+}
+
+.filters input {
+  padding: 12px;
+  margin: 0 10px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  width: 150px;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+  box-sizing: border-box; /* Garantir que o padding e border não afetem a largura */
+}
+
+/* Foco no input */
+.filters input:focus {
+  border-color: #3498db;
+  outline: none;
+}
+
+/* Para telas menores, ajusta a largura dos filtros */
+@media (max-width: 768px) {
+  .filters input {
+    width: 120px; /* Menor largura para telas pequenas */
+  }
+}
+
+
+/* Lista de captações */
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  background-color: #444;
+  margin: 12px 0;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid #555;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave nas listas */
+}
+
+li span {
+  font-weight: bold;
+}
+
+li .status {
+  background-color: #f0ad4e;
+  color: white;
+  padding: 5px 12px;
+  border-radius: 4px;
+}
+
+.card {
+  background-color: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.card h3 {
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 15px;
+  font-size: 1.5em;
+}
+
+/* Estilo de abas ativas */
+/* Estilo para a aba ativa */
+/* Estilo para a aba ativa */
+.tabs .active {
+  font-weight: bold;
+  color: #ffffff; /* Cor do texto mais clara */
+  display: inline-flex; /* Alinha os itens corretamente */
+  justify-content: center;
+  padding: 10px 20px; /* Padroniza o espaçamento dentro do botão */
+  margin: 10px 15px; /* Ajusta a margem para que não sobreponha outros botões */
+  background-color: #2980b9; /* Cor de fundo para destaque */
+  border-radius: 25px; /* Borda arredondada */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15); /* Sombra suave */
+  transition: all 0.2s ease; /* Suaviza a transição */
+}
+
+.tabs .active:hover {
+  transform: scale(1.03); /* Reduz o efeito de zoom */
+  background-color: #3498db; /* Cor mais clara ao passar o mouse */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra mais leve ao passar o mouse */
+}
+
+.tabs .active:focus {
+  outline: none; /* Remove a borda do foco */
+  background-color: #1f6f94; /* Cor de fundo mais escura para o estado de foco */
+}
+
+
+h1, h2 {
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 30px;
+}
