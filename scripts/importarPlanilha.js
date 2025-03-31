@@ -22,12 +22,10 @@ const excelDateToMysqlDate = (excelDate) => {
 
 // Função para importar os dados da planilha "captacao_geral"
 const importarCaptacaoGeral = (filePath) => {
-  // Lê o arquivo Excel
   const workbook = xlsx.readFile(filePath);
   const sheet = workbook.Sheets[workbook.SheetNames[0]];
   const data = xlsx.utils.sheet_to_json(sheet);
 
-  // Preparar e inserir os dados no banco de dados
   data.forEach((row) => {
     const query = `
       INSERT INTO captacao_geral (processo, termo_busca, tipo_captacao, responsavel, exequente, adv, exequente_escritorio, contato, observacoes, ligacao_frutifera, num_imoveis)
@@ -103,11 +101,3 @@ const importarIndicacao = (filePath) => {
     });
   });
 };
-
-// Caminhos dos arquivos Excel
-const fileCaptacaoGeral = 'C:/Users/nbas/Downloads/sistema-captacao/captacao_geral.xlsx';
-const fileIndicacao = 'C:/Users/nbas/Downloads/sistema-captacao/indicacao.xlsx';
-
-// Iniciar a importação
-importarCaptacaoGeral(fileCaptacaoGeral);
-importarIndicacao(fileIndicacao);
