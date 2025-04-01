@@ -1,0 +1,9 @@
+services:
+  db:
+    image: mysql:8.0
+    environment:
+      - MYSQL_ROOT_PASSWORD=Alfa@567*
+      - MYSQL_DATABASE=sistema
+    restart: always
+    ports:
+      - 3308:3306

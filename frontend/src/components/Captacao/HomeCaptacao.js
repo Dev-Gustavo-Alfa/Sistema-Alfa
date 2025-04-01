@@ -50,8 +50,12 @@ const HomeCaptacao = () => {
   // Função para filtrar os dados
   const filterData = (data, filters) => {
     return data.filter((item) =>
-      Object.keys(filters).every((key) =>
-        item[key] ? item[key].toString().toLowerCase().includes(filters[key].toLowerCase()) : true
+      Object.keys(filters).every((key) => {
+        if(item[key]?.includes('mediata')) {
+          return item[key] ? item[key].toString().toLowerCase() === filters[key].toLowerCase() : true
+        }
+         return item[key] ? item[key].toString().toLowerCase().includes(filters[key].toLowerCase()) : true
+      }
       )
     );
   };
