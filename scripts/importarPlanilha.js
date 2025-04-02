@@ -5,99 +5,108 @@ const mysql = require('mysql2');
 // Conexão com o banco de dados
 const db = mysql.createConnection({
   host: 'localhost',
-  user: 'root', // Alterar conforme o seu usuário
-  password: 'Alfa@567*', // Alterar conforme a sua senha
-  database: 'sistema' // Substituir pelo nome do seu banco de dados
+  user: 'root',
+  password: 'Alfa@567*',
+  database: 'sistema'
 });
 
-// Função para converter a data do Excel para o formato de data do MySQL (YYYY-MM-DD)
+// Função para converter datas do Excel para o formato MySQL (YYYY-MM-DD)
 const excelDateToMysqlDate = (excelDate) => {
   if (typeof excelDate === 'number' && !isNaN(excelDate)) {
-    const startDate = new Date(1899, 11, 30);  // Data base do Excel (30 de dezembro de 1899)
-    const millisecondsInDay = 86400000;  // 24 horas em milissegundos
-    return new Date(startDate.getTime() + excelDate * millisecondsInDay).toISOString().split('T')[0];  // Formato YYYY-MM-DD
+    const startDate = new Date(1899, 11, 30);
+    return new Date(startDate.getTime() + excelDate * 86400000).toISOString().split('T')[0];
   }
-  return null;  // Retorna null se a data for inválida
+  return null;
 };
 
-// Função para importar os dados da planilha "captacao_geral"
-const importarCaptacaoGeral = (filePath) => {
+// Função para processar "Ligação Frutífera"
+const processarLigacaoFrutifera = (valor) => {
+  if (valor === true || valor === "SIM" || valor === 1 || valor === "Sim") return "SIM";
+  return "NÃO";
+};
+
+// Função para processar "Número de Imóveis" como texto
+const processarNumImoveis = (valor) => {
+  console.log("Valor recebido em processarNumImoveis:", valor); // Log para verificar o valor recebido
+
+  if (!valor) return null;
+  return valor.toString().trim(); // Agora tratamos como texto
+};
+
+// Função genérica para importar dados de planilhas para o MySQL
+const importarDados = (filePath, tableName, columnsMap) => {
   const workbook = xlsx.readFile(filePath);
   const sheet = workbook.Sheets[workbook.SheetNames[0]];
   const data = xlsx.utils.sheet_to_json(sheet);
 
+  console.log("Colunas encontradas:", Object.keys(data[0])); // Log para verificar os nomes das colunas
+
   data.forEach((row) => {
-    const query = `
-      INSERT INTO captacao_geral (processo, termo_busca, tipo_captacao, responsavel, exequente, adv, exequente_escritorio, contato, observacoes, ligacao_frutifera, num_imoveis)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `;
-    db.query(query, [
-      row['PROCESSO'],
-      row['TERMO DE BUSCA'],
-      row['TIPO DE CAPTAÇÃO'],
-      row['RESPONSÁVEL'],
-      row['EXEQUENTE'],
-      row['ADV'],
-      row['EXEQUENTE/ESCRITÓRIO'],
-      row['CONTATO'],
-      row['OBSERVAÇÕES'],
-      row['"Ligação frutífera? (SIM ou NÃO)"'],
-      row['Nº DE IMÓVEIS']
-    ], (err, result) => {
-      if (err) {
-        console.error('Erro ao inserir dados na tabela captacao_geral:', err);
-      } else {
-        console.log('Dados inseridos na tabela captacao_geral:', result);
-      }
+    const values = columnsMap.map((col) => {
+      if (col.type === 'date') return excelDateToMysqlDate(row[col.name]);
+      if (col.type === 'ligacao_frutifera') return processarLigacaoFrutifera(row[col.name]);
+      if (col.type === 'num_imoveis') return processarNumImoveis(row[col.name]);
+      return row[col.name] || null;
     });
-  });
-};
 
-// Função para importar os dados da planilha "indicacao"
-const importarIndicacao = (filePath) => {
-  // Lê o arquivo Excel
-  const workbook = xlsx.readFile(filePath);
-  const sheet = workbook.Sheets[workbook.SheetNames[0]];
-  const data = xlsx.utils.sheet_to_json(sheet);
+    console.log(`Inserindo dados na tabela ${tableName}:`, values); // Log para ver os dados antes de inserir
 
-  // Preparar e inserir os dados no banco de dados
-  data.forEach((row) => {
-    const values = [
-      excelDateToMysqlDate(row['DATA DA CAPTAÇÃO']),
-      excelDateToMysqlDate(row['DATA DA ULTIMA VISTA']),
-      row['PROCESSO'] || null,
-      row['ESTADO'] || null,
-      row['NOMENC. CAPTADA'] || null,
-      row['VARA'] || null,
-      row['FORO'] || null,
-      row['JUIZO'] || null,
-      row['SITUAÇÃO'] || null,
-      row['VALOR DA AÇÃO/ADV CONSTITUIDO'] || null,
-      row['TIPO DE CAPTAÇÃO'] || null,
-      row['ADVOGADO / ESCRITÓRIO'] || null,
-      row['CONTATO'] || null,
-      row['CIDADE'] || null,
-      row['BAIRRO'] || null,
-      row['ANÁLISE DE VIABILIDADE'] || null,
-      row['OBSERVAÇÕES CAPTADOR'] || null,
-      row['RELATÓRIO'] || null,
-      row['OBSERVAÇÕES MANUTENÇÃO'] || null,
-      row['RESPONSÁVEL'] || null,
-      row['SISTEMA'] || null
-    ];
-
-    const query = `
-      INSERT INTO indicacao 
-      (data_captacao, data_ultima_vista, processo, estado, nomenclatura_captada, vara, foro, juizo, situacao, valor_acao_adv_conc, tipo_captacao, advogado_escritorio, contato, cidade, bairro, analise_viabilidade, \`observacoes-captador\`, relatorio, observacoes_manutencao, responsavel, sistema)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `;
+    const placeholders = columnsMap.map(() => '?').join(', ');
+    const query = `INSERT INTO ${tableName} (${columnsMap.map(c => c.db).join(', ')}) VALUES (${placeholders})`;
 
     db.query(query, values, (err, result) => {
       if (err) {
-        console.error('Erro ao inserir dados na tabela indicacao:', err);
+        console.error(`Erro ao inserir dados na tabela ${tableName}:`, err);
       } else {
-        console.log('Dados inseridos na tabela indicacao:', result);
+        console.log(`Dados inseridos na tabela ${tableName}:`, result);
       }
     });
   });
 };
+
+// Mapeamento das colunas para a tabela "captacao_geral"
+const captacaoGeralColumns = [
+  { name: 'DATA', db: 'data_captacao', type: 'date' },
+  { name: 'PROCESSO', db: 'processo' },
+  { name: 'TERMO DE BUSCA', db: 'termo_busca' },
+  { name: 'TIPO DE CAPTAÇÃO', db: 'tipo_captacao' },
+  { name: 'EXEQUENTE', db: 'exequente' },
+  { name: 'ADV EXEQUENTE/ESCRITÓRIO', db: 'adv_exequente_escritorio' },
+  { name: 'RESPONSÁVEL', db: 'responsavel' },
+  { name: 'CONTATO', db: 'contato' },
+  { name: 'OBSERVAÇÕES', db: 'observacoes' },
+  { name: 'Ligação frutífera? \r\n(SIM ou NÃO)', db: 'ligacao_frutifera', type: 'ligacao_frutifera' },
+  { name: 'Nº DE IMÓVEIS ', db: 'num_imoveis', type: 'num_imoveis' },
+];
+
+// Mapeamento das colunas para a tabela "indicacao"
+const indicacaoColumns = [
+  { name: 'DATA DA CAPTAÇÃO', db: 'data_captacao', type: 'date' },
+  { name: 'DATA DA ULTIMA VISTA', db: 'data_ultima_vista', type: 'date' },
+  { name: 'PROCESSO', db: 'processo' },
+  { name: 'ESTADO', db: 'estado' },
+  { name: 'NOMENC. CAPTADA', db: 'nomenclatura_captada' },
+  { name: 'VARA', db: 'vara' },
+  { name: 'FORO', db: 'foro' },
+  { name: 'JUIZO', db: 'juizo' },
+  { name: 'SITUAÇÃO', db: 'situacao' },
+  { name: 'VALOR DA AÇÃO/ADV CONSTITUÍDO', db: 'valor_acao_adv_conc' },
+  { name: 'TIPO DE CAPTAÇÃO', db: 'tipo_captacao' },
+  { name: 'ADVOGADO / ESCRITÓRIO', db: 'advogado_escritorio' },
+  { name: 'CONTATO', db: 'contato' },
+  { name: 'CIDADE', db: 'cidade' },
+  { name: 'BAIRRO', db: 'bairro' },
+  { name: 'ANÁLISE DE VIABILIDADE', db: 'analise_viabilidade' },
+  { name: 'OBSERVAÇÕES CAPTADOR', db: 'observacoes_captador' },
+  { name: 'RELATÓRIO', db: 'relatorio' },
+  { name: 'OBSERVAÇÕES MANUTENÇÃO', db: 'observacoes_manutencao' },
+  { name: 'RESPONSÁVEL', db: 'responsavel' },
+];
+
+// Caminhos dos arquivos Excel
+const fileCaptacaoGeral = 'C:/Users/nbas/Downloads/sistema-captacao/captacao_geral.xlsx';
+const fileIndicacao = 'C:/Users/nbas/Downloads/sistema-captacao/indicacao.xlsx';
+
+// Importar os dados
+importarDados(fileCaptacaoGeral, 'captacao_geral', captacaoGeralColumns);
+importarDados(fileIndicacao, 'indicacao', indicacaoColumns);

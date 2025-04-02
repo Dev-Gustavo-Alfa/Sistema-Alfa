@@ -1,0 +1,87 @@
+Adicionar parte de login
+
+captação geral:
+
+
+captações editáveis, ter uma lupinha no final da captação e quando clicar poder mudar o status, no caso, abrir o mesmo formulário de captação geral para que possamos editar.
+
+Captação diária:
+Arrumar o banco de dados, para que pegue as informações que colocamos no formulário.
+quando marcar a opção não contatar, adicionar a planilha geral e colocar em vermelho
+
+
+indicação:
+Manutenção e Sistema - Verificar com a Lara
+
+Cidade e Bairro um só - Verificar com a Lara
+
+
+Adicionar o contato do adv, Exequente
+
+
+
+Captação diária:
+todas essas opções abaixo, só caso tenha sido captado, então se a pessoa colocar como captado, abrir todas essas opções para preenchimento,
+Responsável - so adicionar se for captado
+Nomenclatura Captada
+Contato	- da pessoa captada
+Data Captação, Data Última Vista Estado Situação Valor da Ação Cidade Bairro Análise Viabilidade Relatório
+
+controle de captação - planilha diária
+https://docs.google.com/spreadsheets/d/1qUV3uAUEz9gKID2TTd2xuwqZZBfPxHOG-pEs3Byi6sw/edit?gid=862907838#gid=862907838
+
+Fazer uma logica para somar todas as captações diárias, por mês e por ano, separando imediatas das mediatas;
+
+Deixar diferente Mediatas e Imediatas - Filtro está pegando imediatas quando colocar mediatas
+
+Uma só de nova captação 
+
+
+Solicitações internas:
+
+Avaliação
+
+Mudar data da captação para Data da solicitação
+
+Nome do exequente - nome do solicitante
+
+DADOS deles - CNPJ ou CPF, nome completo e endereço; diretório também.
+
+Numero do processo - puxar os dados
+
+Preencher somente, as coisas acima
+
+Veiculo só muda os dados (Placa, modelo, chassi, renavam)
+Imóvel (Numero da matricula, folhas que se encontra a matricula, cri da matricula
+
+Tipo de solicitação - relatório comparativo e pareceres técnicos; pareceres técnicos; todas as opções lá - pesquisa de bens
+
+prioridade (1,2,3 ou 4) / (Prazo especifico - colocar uma data caso seja essa opção)
+
+Emissão de documentos
+
+Colocar link em vez de arquivo
+
+Depois de preencher essas informações acima, envia para a avaliação prosseguir com o resto das informações.
+
+Solicitações internas - avaliação, aparece como nova solicitação. - quando preenchido pela captação. 
+
+role para cada usuário (permissões)
+
+
+Depois volta para a captação
+
+Zera: TRUNCATE TABLE captacao_geral;
+TRUNCATE TABLE indicacao;
+
+
+Vamos migrar para prisma
+
+e colocar o banco de dados em algum host
+
+fazer a parte visual, para que fique bonita.
+
+Separar as atividades;
+
+Postura;
+

@@ -1,0 +1,67 @@
+.controle-captacao-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .titulo {
+    text-align: center;
+    color: #333;
+  }
+  
+  .metas {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+    padding: 10px;
+    background: #e3f2fd;
+    border-radius: 5px;
+  }
+  
+  .meta {
+    font-size: 16px;
+    font-weight: bold;
+    color: #007acc;
+  }
+  
+  .subtitulo {
+    margin-top: 20px;
+    color: #444;
+    text-align: center;
+  }
+  
+  .grafico-container {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .tabela-captacao {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: white;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  
+  .tabela-captacao th, .tabela-captacao td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .tabela-captacao th {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .tabela-captacao tr:hover {
+    background-color: #f1f1f1;
+  }
+  

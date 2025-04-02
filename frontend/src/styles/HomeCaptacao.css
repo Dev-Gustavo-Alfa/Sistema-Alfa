@@ -1,0 +1,122 @@
+/* Estilos gerais para o modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+  overflow: auto; /* Permite rolagem caso o modal tenha altura excessiva */
+}
+
+.edit-captacao-modal {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 800px; /* Limita a largura do modal */
+  max-height: 85%; /* Limita a altura do modal */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  overflow-y: auto; /* Barra de rolagem caso o conteúdo ultrapasse a altura */
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.edit-captacao-modal h3 {
+  font-size: 28px;
+  margin-bottom: 15px;
+  text-align: center;
+  color: #333;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+/* Estilos para os campos do formulário */
+label {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 8px;
+  display: block;
+  font-weight: 500;
+}
+
+input, textarea, select {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  font-family: 'Arial', sans-serif;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+input[type="date"] {
+  padding: 8px;
+}
+
+/* Foco nos campos de formulário */
+input:focus, textarea:focus, select:focus {
+  border-color: #4CAF50;
+  outline: none;
+}
+
+/* Estilos para os botões */
+.edit-captacao-modal button {
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+button[type="button"] {
+  background-color: #f44336;
+}
+
+button[type="button"]:hover {
+  background-color: #e53935;
+}
+
+/* Estilos adicionais para o modal */
+.edit-captacao-modal form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.edit-captacao-modal form button {
+  margin-top: 10px;
+  align-self: flex-start;
+}
+
+.edit-captacao-modal form button[type="button"] {
+  background-color: #ccc;
+}
+
+.edit-captacao-modal form button[type="button"]:hover {
+  background-color: #bbb;
+}
+
+/* Adiciona espaçamento nos campos de seleção */
+select {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+}
+
+select:focus {
+  border-color: #4CAF50;
+}
