@@ -1,0 +1,161 @@
+.captacao-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    background: #ffffff;
+    border: 1px solid #ddd;
+    transition: all 0.3s ease;
+}
+
+.captacao-container h2 {
+    text-align: center;
+    color: #2c3e50;
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.captacao-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Container dos checkboxes */
+.captacao-container form div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 10px;
+    align-items: center;
+}
+  
+.captacao-container form div label {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #444;
+    white-space: nowrap;
+}
+  
+.captacao-container form div input[type="checkbox"] {
+    margin-right: 8px;
+    transform: scale(1.1);
+    transition: transform 0.3s ease;
+}
+
+.captacao-container .section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    padding: 15px;
+    border-radius: 10px;
+    background-color: #f8f9fa;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.captacao-container label {
+    font-weight: 600;
+    color: #333;
+    font-size: 14px;
+}
+
+.captacao-container input,
+.captacao-container select,
+.captacao-container textarea {
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    width: 100%;
+    transition: all 0.3s ease;
+}
+
+.captacao-container input:focus,
+.captacao-container select:focus,
+.captacao-container textarea:focus {
+    border-color: #007bff;
+    outline: none;
+    background-color: #fff;
+    box-shadow: 0px 0px 5px rgba(0, 123, 255, 0.2);
+}
+
+/* Estilo para o botão de cadastrar captação */
+.captacao-container .btn-cadastrar {
+    padding: 8px 15px;
+    font-size: 14px;
+    background-color: #007bff; /* Azul */
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 15px;
+    width: auto;
+    text-align: center;
+    font-weight: 600;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.captacao-container .btn-cadastrar:hover {
+    background-color: #0056b3;
+    box-shadow: 0px 5px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Estilo para o botão de cancelar captação */
+.captacao-container .btn-cancelar {
+    padding: 8px 15px;
+    font-size: 14px;
+    background-color: #e74c3c; /* Vermelho */
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 15px;
+    width: auto;
+    text-align: center;
+    font-weight: 600;
+}
+
+.captacao-container .btn-cancelar:hover {
+    background-color: #c0392b; /* Cor mais escura ao passar o mouse */
+    box-shadow: 0px 5px 8px rgba(0, 0, 0, 0.15);
+}
+
+
+.captacao-container .form-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    width: auto; /* Botões com tamanho automático */
+
+}
+
+.captacao-container .section input,
+.captacao-container .section select,
+.captacao-container .section textarea {
+    width: 100%;
+    max-width: 450px;
+    box-sizing: border-box;
+}
+
+.captacao-container .error {
+    color: red;
+    font-size: 12px;
+}
+
+@media (max-width: 768px) {
+    .captacao-container .section {
+        grid-template-columns: 1fr;
+    }
+
+    .captacao-container button {
+        width: 100%;
+    }
+}
