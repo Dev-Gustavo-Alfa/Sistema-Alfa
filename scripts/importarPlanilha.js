@@ -3,12 +3,13 @@ const xlsx = require("xlsx");
 const mysql = require("mysql2");
 
 // Conexão com o banco de dados
-const db = mysql.createConnection({
+const db = mysql.createPool({
   host: "localhost",
   user: "root",
   password: "Alfa@567*",
   database: "sistema",
   port: 3308,
+  connectTimeout: 30000,
 });
 
 // Função para converter datas do Excel para o formato MySQL (YYYY-MM-DD)
@@ -47,6 +48,7 @@ const importarDados = (filePath, tableName, columnsMap) => {
 
   data.forEach((row) => {
     const values = columnsMap.map((col) => {
+      console.log("ROWWWWWWW ", row);
       if (col.type === "date") return excelDateToMysqlDate(row[col.name]);
       if (col.type === "ligacao_frutifera")
         return processarLigacaoFrutifera(row[col.name]);
@@ -82,6 +84,7 @@ const captacaoGeralColumns = [
   { name: "RESPONSÁVEL", db: "responsavel" },
   { name: "CONTATO", db: "contato" },
   { name: "OBSERVAÇÕES", db: "observacoes" },
+  // {name: "VALOR DA AÇÃO/ADV CONSTITUIDO", db: "valor_acao_adv_constituido"},
   {
     name: "Ligação frutífera? \r\n(SIM ou NÃO)",
     db: "ligacao_frutifera",

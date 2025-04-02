@@ -1,0 +1,82 @@
+datasource db {
+    provider= "mysql"
+    url = "mysql://root:Alfa@567*@localhost:3308/sistema"
+}
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+model indicacao {
+    id Int @id @default(autoincrement())
+    data_captacao String?
+    data_ultima_vista String?
+    processo String?
+    estado String?
+    nomenclatura_captada String?
+    vara String?
+    foro String?
+    juizo String?
+    situacao String?
+    valor_acao_adv_conc String?
+    tipo_captacao String?
+    advogado_escritorio String?
+    contato String?
+    cidade String?
+    bairro String?
+    analise_viabilidade String?
+    observacoes_captador String?
+    relatorio String?
+    observacoes_manutencao String?
+    responsavel String?
+}
+
+model captacao {
+    id Int @id @default(autoincrement())
+    data_captacao String?
+    processo String?
+    termo_busca String?
+    tipo_captacao String?
+    exequente String?
+    // valor_acao_adv String?
+    adv_exequente_escritorio String?
+    responsavel String?
+    contato String?
+    observacoes String?
+    ligacao_frutifera String?
+    num_imoveis String?
+}
+
+model captacao_geral {
+    id Int @id @default(autoincrement())
+    data_captacao String?
+    processo String?
+    termo_busca String?
+    tipo_captacao String?
+    exequente String?
+    adv_exequente_escritorio String?
+    responsavel String?
+    contato String?
+    observacoes String?
+    ligacao_frutifera String?
+    num_imoveis String?
+}
+
+
+// for tomorrow
+
+// add status field to the models
+
+// create a route for change status for "captdado" in "captacao" route /put
+
+// create a route for post for model "indicacao"
+
+// when receive info
+
+// add table fields
+
+// put validations
+
+// put business rules
+
+// maybe websockets

@@ -1,0 +1,4 @@
+* terminar as rotas certinho
+
+* colocar os campos certinho no prisma e consquentemente nas rotas
+

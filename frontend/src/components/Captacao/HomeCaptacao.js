@@ -29,10 +29,10 @@ const HomeCaptacao = () => {
     const fetchData = async () => {
       try {
         const captacaoResponse = await axios.get(
-          "http://localhost:3001/api/captacao/captacao_geral"
+          "http://localhost:3001/captacao"
         );
         const indicacaoResponse = await axios.get(
-          "http://localhost:3001/api/captacao/indicacao"
+          "http://localhost:3001/indicacao"
         );
         console.log('Captacao Geral:', captacaoResponse.data);
         console.log('Indicação:', indicacaoResponse.data);
