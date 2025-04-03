@@ -13,11 +13,12 @@ export default class CaptacaoController {
 
   @Post()
   async post(@Body() captacao: any) {
-    return await this.service.post(captacao);
+    return await this.service.post(captacao); // se captado vai para indicação
   }
 
   @Put('/:id')
   async put(@Param('id') id: string, @Body() captacao: any) {
+    console.log(id)
     return await this.service.put(id, captacao);
   }
 }

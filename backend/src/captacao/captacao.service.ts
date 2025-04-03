@@ -11,7 +11,7 @@ export default class CaptacaoService {
   }
 
   async post(captacao: any) {
-    return await prisma.captacao_geral.create({
+    return await prisma.captacao_geral.create({ 
       data: { ...captacao },
     });
   }
@@ -20,6 +20,14 @@ export default class CaptacaoService {
     if (isNaN(+id) || !id.trim().length) {
       throw new BadRequestException({ error: 'invalid id, should be number' });
     }
+
+    if(captacao.status == 'captado') {
+      return await prisma.indicacao.update({
+        where: { id: +id }, 
+        data: { ...captacao }
+      })
+    }
+
     return await prisma.captacao_geral.update({
       where: { id: +id },
       data: { ...captacao },

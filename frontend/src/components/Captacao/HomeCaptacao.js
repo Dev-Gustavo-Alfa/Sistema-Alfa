@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { format } from "date-fns";
-import '@fortawesome/fontawesome-free/css/all.min.css';
+//import '@fortawesome/fontawesome-free/css/all.min.css';
 import "../../styles/HomeCaptacao.css";
 
 const HomeCaptacao = () => {
@@ -12,11 +12,23 @@ const HomeCaptacao = () => {
   const [captacaoGeralFilters, setCaptacaoGeralFilters] = useState({});
   const [indicacaoFilters, setIndicacaoFilters] = useState({});
   const [captacaoToEdit, setCaptacaoToEdit] = useState(null);
+  const [editandoIndicacao, setEditandoIndicacao] = useState(false)
 
   const handleSaveEdit = async (e) => {
     e.preventDefault();
-
+    const rota = `http://localhost:3001/captacao/${captacaoToEdit.id}`
+    const newCap = {}
+    Object.keys(captacaoToEdit).forEach((e) => e !== 'id' ? newCap[e] = captacaoToEdit[e] : false)
+    console.log(newCap)
     try {
+      const {data} = await axios.put(rota, newCap)
+      console.log(data)
+    } catch (error) {
+      console.log(error)
+    }
+
+
+   /* try {
       const response = await fetch('/api/salvar-captacao', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -28,11 +40,12 @@ const HomeCaptacao = () => {
       setCaptacaoToEdit(null); // Limpar o formulário após salvar
     } catch (error) {
       console.error('Erro ao salvar a captação:', error);
-    }
+    } */
   };
 
   // Função para formatar a data
   const formatDate = (dateString) => {
+    console.log("recebi assimmmmm", dateString)
     if(!dateString) return "-" 
     const date = new Date(dateString);
     return format(date, "dd/MM/yyyy");
@@ -53,10 +66,10 @@ const HomeCaptacao = () => {
     const fetchData = async () => {
       try {
         const captacaoResponse = await axios.get(
-          "http://localhost:3001/api/captacao/captacao_geral"
+          "http://localhost:3001/captacao"
         );
         const indicacaoResponse = await axios.get(
-          "http://localhost:3001/api/captacao/indicacao"
+          "http://localhost:3001/indicacao"
         );
         console.log('Captacao Geral:', captacaoResponse.data);
         console.log('Indicação:', indicacaoResponse.data);
@@ -121,6 +134,7 @@ const HomeCaptacao = () => {
   };
 
   const handleEditClick = (captacao) => {
+    console.log("sasdadsdsadffdsdfsfddfsfdfdsdfsdfsdf", captacao)
     setCaptacaoToEdit(captacao);
   };
 
@@ -532,50 +546,16 @@ const HomeCaptacao = () => {
           }
         />
 
-        <label>Vara:</label>
-        <input
-          type="text"
-          value={captacaoToEdit.vara}
-          onChange={(e) =>
-            setCaptacaoToEdit({
-              ...captacaoToEdit,
-              vara: e.target.value,
-            })
-          }
-        />
-
-        <label>Juiz:</label>
-        <input
-          type="text"
-          value={captacaoToEdit.juiz}
-          onChange={(e) =>
-            setCaptacaoToEdit({
-              ...captacaoToEdit,
-              juiz: e.target.value,
-            })
-          }
-        />
-
-        <label>Foro:</label>
-        <input
-          type="text"
-          value={captacaoToEdit.foro}
-          onChange={(e) =>
-            setCaptacaoToEdit({
-              ...captacaoToEdit,
-              foro: e.target.value,
-            })
-          }
-        />
+       
 
         <label>Termo de Busca:</label>
         <input
           type="text"
-          value={captacaoToEdit.termoBusca}
+          value={captacaoToEdit.termo_busca}
           onChange={(e) =>
             setCaptacaoToEdit({
               ...captacaoToEdit,
-              termoBusca: e.target.value,
+              termo_busca: e.target.value,
             })
           }
         />
@@ -596,16 +576,16 @@ const HomeCaptacao = () => {
         <label>Advogado:</label>
         <input
           type="text"
-          value={captacaoToEdit.advogado}
+          value={captacaoToEdit.adv_exequente_escritorio}
           onChange={(e) =>
             setCaptacaoToEdit({
               ...captacaoToEdit,
-              advogado: e.target.value,
+              adv_exequente_escritorio: e.target.value,
             })
           }
         />
 
-        <label>Data de Contato:</label>
+        {/*<label>Data de Contato:</label>
         <input
           type="date"
           value={captacaoToEdit.dataContato}
@@ -615,16 +595,16 @@ const HomeCaptacao = () => {
               dataContato: e.target.value,
             })
           }
-        />
+        />*/}
 
         <label>Número do Imóvel:</label>
         <input
           type="text"
-          value={captacaoToEdit.numeroImovel}
+          value={captacaoToEdit.num_imoveis}
           onChange={(e) =>
             setCaptacaoToEdit({
               ...captacaoToEdit,
-              numeroImovel: e.target.value,
+              num_imoveis: e.target.value,
             })
           }
         />
@@ -644,12 +624,13 @@ const HomeCaptacao = () => {
          <label>
           Tipo de Captação:
           <select
-            name="tipoCaptação"
-            value={captacaoToEdit.tipoCaptação}
-            onChange={(e) => setCaptacaoToEdit({ ...captacaoToEdit, tipoCaptação: e.target.value })}
+            name="tipo_captação"
+            value={captacaoToEdit.tipo_captação}
+            onChange={(e) => setCaptacaoToEdit({ ...captacaoToEdit, tipo_captação: e.target.value })}
           >
             <option value="mediata">Mediata</option>
             <option value="imediata">Imediata</option>
+            <option value="imediata">Espontanêa</option>
           </select>
         </label>
 
@@ -659,7 +640,7 @@ const HomeCaptacao = () => {
           <select
             name="status"
             value={captacaoToEdit.status}
-            onChange={(e) => setCaptacaoToEdit({ ...captacaoToEdit, status: e.target.value })}
+            onChange={(e) =>  setCaptacaoToEdit({ ...captacaoToEdit, status: e.target.value })}
           >
             <option value="contatado">Contatado</option>
             <option value="captado">Captado</option>
@@ -670,25 +651,61 @@ const HomeCaptacao = () => {
         {/* Campos que aparecem quando o status for "Captado" */}
         {captacaoToEdit.status === "captado" && (
           <>
-            <label>
-              Responsável:
-              <input
-                type="text"
-                name="responsavel"
-                value={captacaoToEdit.responsavel}
-                onChange={(e) =>
-                  setCaptacaoToEdit({ ...captacaoToEdit, responsavel: e.target.value })
-                }
-              />
-            </label>
+           <label>
+            Responsável:
+            <input
+              type="text"
+              name="responsavel"
+              value={captacaoToEdit.responsavel ?? ""} // Garante que nunca seja null ou undefined
+              onChange={(e) =>
+                setCaptacaoToEdit({ ...captacaoToEdit, responsavel: e.target.value })
+              }
+            />
+          </label>
+
+            <label>Vara:</label>
+          <input
+            type="text"
+            value={captacaoToEdit.vara ?? ""}
+            onChange={(e) =>
+              setCaptacaoToEdit({
+                ...captacaoToEdit,
+                vara: e.target.value,
+              })
+            }
+          />
+
+          <label>Juiz:</label>
+          <input
+            type="text"
+            value={captacaoToEdit.juizo ?? ""}
+            onChange={(e) =>
+              setCaptacaoToEdit({
+                ...captacaoToEdit,
+                juizo: e.target.value,
+              })
+            }
+          />
+
+          <label>Foro:</label>
+          <input
+            type="text"
+            value={captacaoToEdit.foro ?? ""}
+            onChange={(e) =>
+              setCaptacaoToEdit({
+                ...captacaoToEdit,
+                foro: e.target.value,
+              })
+            }
+          />
             <label>
               Nomenclatura Captada:
               <input
                 type="text"
-                name="nomenclaturaCaptada"
-                value={captacaoToEdit.nomenclaturaCaptada}
+                name="nomenclatura_captada"
+                value={captacaoToEdit.nomenclatura_captada ?? ""}
                 onChange={(e) =>
-                  setCaptacaoToEdit({ ...captacaoToEdit, nomenclaturaCaptada: e.target.value })
+                  setCaptacaoToEdit({ ...captacaoToEdit, nomenclatura_captada: e.target.value })
                 }
               />
             </label>
@@ -696,32 +713,32 @@ const HomeCaptacao = () => {
               Contato da Pessoa Captada:
               <input
                 type="text"
-                name="contatoCaptado"
-                value={captacaoToEdit.contatoCaptado}
+                name="contato"
+                value={captacaoToEdit.contato ?? ""}
                 onChange={(e) =>
-                  setCaptacaoToEdit({ ...captacaoToEdit, contatoCaptado: e.target.value })
+                  setCaptacaoToEdit({ ...captacaoToEdit, contato: e.target.value })
                 }
               />
             </label>
             <label>
-              Data Captação:
-              <input
-                type="date"
-                name="dataCaptacao"
-                value={captacaoToEdit.dataCaptacao}
-                onChange={(e) =>
-                  setCaptacaoToEdit({ ...captacaoToEdit, dataCaptacao: e.target.value })
-                }
-              />
-            </label>
+            Data Captação:
+            <input
+              type="date"
+              name="data_captacao"
+              value={captacaoToEdit.data_captacao ? captacaoToEdit.data_captacao.split('T')[0] : ""}
+              onChange={(e) =>
+                setCaptacaoToEdit({ ...captacaoToEdit, data_captacao: new Date(`${e.target.value} `).toISOString()})
+              }
+            />
+          </label>
             <label>
               Data Última Vista:
               <input
                 type="date"
-                name="dataUltimaVista"
-                value={captacaoToEdit.dataUltimaVista}
+                name="data_ultima_vista"
+                value={captacaoToEdit.data_ultima_vista ? captacaoToEdit.data_ultima_vista.split('T')[0] : ""}
                 onChange={(e) =>
-                  setCaptacaoToEdit({ ...captacaoToEdit, dataUltimaVista: e.target.value })
+                  setCaptacaoToEdit({ ...captacaoToEdit, data_ultima_vista: new Date(`${e.target.value} `).toISOString()})
                 }
               />
             </label>
@@ -730,7 +747,7 @@ const HomeCaptacao = () => {
               <input
                 type="text"
                 name="estado"
-                value={captacaoToEdit.estado}
+                value={captacaoToEdit.estado ?? ""}
                 onChange={(e) =>
                   setCaptacaoToEdit({ ...captacaoToEdit, estado: e.target.value })
                 }
@@ -741,31 +758,38 @@ const HomeCaptacao = () => {
               <input
                 type="text"
                 name="situacao"
-                value={captacaoToEdit.situacao}
+                value={captacaoToEdit.situacao ?? ""}
                 onChange={(e) =>
                   setCaptacaoToEdit({ ...captacaoToEdit, situacao: e.target.value })
                 }
               />
+              <label>
+              Situação:
+              <select
+                name="situação"
+                value={captacaoToEdit.status ?? ""}
+                onChange={(e) => setCaptacaoToEdit({ ...captacaoToEdit, status: e.target.value })}
+              >
+                <option value="nomeados">Nomeados</option>
+                <option value="pendente">Pendente</option>
+                <option value="acordo">Acordo</option>
+                <option value="adv">advogado indicou outra leiloeira</option>
+                <option value="juiz">juiz nomeou outra leiloeira</option>
+                <option value="iminente">iminente (indicados)</option>
+                <option value="extinto_arquivado">Processo extinto/arquivado</option>
+                <option value="arrematado_conosco">Arrematado conosco</option>
+
+              </select>
             </label>
-            <label>
-              Juiz:
-              <input
-                type="text"
-                name="juizo"
-                value={captacaoToEdit.juizo}
-                onChange={(e) =>
-                  setCaptacaoToEdit({ ...captacaoToEdit, juizo: e.target.value })
-                }
-              />
             </label>
             <label>
               Valor da Ação/Advogado Constituído:
               <input
                 type="text"
-                name="valorAcao"
-                value={captacaoToEdit.valorAcao}
+                name="valor_acao_adv_conc"
+                value={captacaoToEdit.valor_acao_adv_conc ?? ""}
                 onChange={(e) =>
-                  setCaptacaoToEdit({ ...captacaoToEdit, valorAcao: e.target.value })
+                  setCaptacaoToEdit({ ...captacaoToEdit, valor_acao_adv_conc: e.target.value })
                 }
               />
             </label>
@@ -773,10 +797,10 @@ const HomeCaptacao = () => {
               Cidade/Bairro:
               <input
                 type="text"
-                name="cidade"
-                value={captacaoToEdit.cidade}
+                name="bairro"
+                value={captacaoToEdit.bairro ?? ""}
                 onChange={(e) =>
-                  setCaptacaoToEdit({ ...captacaoToEdit, cidade: e.target.value })
+                  setCaptacaoToEdit({ ...captacaoToEdit, bairro: e.target.value })
                 }
               />
             </label>
@@ -784,23 +808,27 @@ const HomeCaptacao = () => {
               Análise Viabilidade:
               <input
                 type="text"
-                name="analiseViabilidade"
-                value={captacaoToEdit.analiseViabilidade}
+                name="analise_viabilidade"
+                value={captacaoToEdit.analise_viabilidade ?? ""}
                 onChange={(e) =>
-                  setCaptacaoToEdit({ ...captacaoToEdit, analiseViabilidade: e.target.value })
+                  setCaptacaoToEdit({ ...captacaoToEdit, analise_viabilidade: e.target.value })
                 }
               />
             </label>
             <label>
-              Relatório:
-              <textarea
-                name="relatorio"
-                value={captacaoToEdit.relatorio}
-                onChange={(e) =>
-                  setCaptacaoToEdit({ ...captacaoToEdit, relatorio: e.target.value })
-                }
-              />
-            </label>
+            Relatório:
+          <select
+            name="relatorio"
+            value={captacaoToEdit.status ?? ""}
+            onChange={(e) => setCaptacaoToEdit({ ...captacaoToEdit, status: e.target.value })}
+          >
+            <option value="rejeitado">Rejeitado</option>
+            <option value="homologado">Homologado</option>
+            <option value="pendente">Pendente</option>
+            <option value="juntado">Juntado</option>
+            <option value="nao-se-aplica">Não se aplica</option>
+          </select>
+        </label>
           </>
         )}
 

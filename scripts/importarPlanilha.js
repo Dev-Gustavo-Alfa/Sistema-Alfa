@@ -8,7 +8,7 @@ const db = mysql.createConnection({
   user: 'root',
   password: 'Alfa@567*',
   database: 'sistema',
-  connectTimeout: 30000
+  connectTimeout: 50000
 });
 
 // Função para converter datas do Excel para o formato MySQL (YYYY-MM-DD)

@@ -1,6 +1,6 @@
 datasource db {
     provider= "mysql"
-    url = "mysql://root:Alfa@567*@localhost:3308/sistema"
+    url = "mysql://root:Alfa@567*@localhost:3306/sistema"
 }
 
 generator client {
@@ -9,8 +9,8 @@ generator client {
 
 model indicacao {
     id Int @id @default(autoincrement())
-    data_captacao String?
-    data_ultima_vista String?
+    data_captacao DateTime?
+    data_ultima_vista DateTime?
     processo String?
     estado String?
     nomenclatura_captada String?
@@ -33,13 +33,11 @@ model indicacao {
 
 model captacao {
     id Int @id @default(autoincrement())
-    data_captacao String?
+    data_captacao DateTime?
     processo String?
     termo_busca String?
     tipo_captacao String?
     exequente String?
-    // valor_acao_adv String?
-    adv_exequente_escritorio String?
     responsavel String?
     contato String?
     observacoes String?
@@ -49,7 +47,7 @@ model captacao {
 
 model captacao_geral {
     id Int @id @default(autoincrement())
-    data_captacao String?
+    data_captacao DateTime?
     processo String?
     termo_busca String?
     tipo_captacao String?
