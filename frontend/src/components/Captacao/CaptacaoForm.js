@@ -1,61 +1,83 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-
-function CaptacaoForm() {
-    const [nome, setNome] = useState('');
-    const [numeroProcesso, setNumeroProcesso] = useState('');
-    const [dataInicio, setDataInicio] = useState('');
-
-    const handleSubmit = async (e) => {
+import React, { useEffect, useState } from 'react'
+import axios from 'axios'
+function CaptacaoForm(props) {
+    const [captacao, setCaptacao] = useState({tipo_captacao: "Mediata"})
+    const [email, setEmail] = useState()
+    const [phone, setPhone] = useState()
+    const [id, setId] = useState(props.id)
+    useEffect(() => {
+      console.log(captacao)
+    }, [captacao])
+    const verifyData = (data) => {
+      const dataChecked = {}
+      if(data.data_captacao) data.data_captacao = new Date(data.data_captacao+ ' ').toISOString()
+      Object.keys(data).forEach((e) => (data[e].length) ? dataChecked[e] = data[e]: false)
+      return dataChecked
+    }
+    const updateCaptacao = async (e) => {
         e.preventDefault();
+        setCaptacao({ ...captacao, contato: `${email ? email : ''}/${phone ? phone: ''}`})
+        const checkedData = verifyData(captacao)
+        console.log(checkedData)
         try {
-            await axios.post('http://localhost:3001/captacao', {
-                nome,
-                numero_processo: numeroProcesso,
-                data_inicio: dataInicio,
-            });
-            alert('Captação criada com sucesso!');
-        } catch (err) {
-            console.error(err);
-            alert('Erro ao criar captação');
+          const {data} = await axios.put(`http://localhost:3001/captacao/${id}`, captacao)
+          console.log(data)
+        } catch (error) {
+          console.log(error)
         }
-    };
-
-    return (
-        <div>
-            <h2>Criar Captação</h2>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Nome:</label>
-                    <input
-                        type="text"
-                        value={nome}
-                        onChange={(e) => setNome(e.target.value)}
-                        required
-                    />
-                </div>
-                <div>
-                    <label>Número do Processo:</label>
-                    <input
-                        type="text"
-                        value={numeroProcesso}
-                        onChange={(e) => setNumeroProcesso(e.target.value)}
-                        required
-                    />
-                </div>
-                <div>
-                    <label>Data de Início:</label>
-                    <input
-                        type="date"
-                        value={dataInicio}
-                        onChange={(e) => setDataInicio(e.target.value)}
-                        required
-                    />
-                </div>
-                <button type="submit">Criar Captação</button>
-            </form>
-        </div>
-    );
+      }
+  return (
+    <form onSubmit={updateCaptacao}>
+      <label>
+          Data de Captação:
+          <input type="date" onChange={(e) => setCaptacao({...captacao, ["data_captacao"]: e.target.value})} />
+        </label>
+        <label>
+          Processo:
+          <input type="text" onChange={(e) => setCaptacao({...captacao, ["processo"]: e.target.value})} />
+        </label>
+        <label>
+          Termo de Busca:
+          <input type="text" onChange={(e) => setCaptacao({...captacao, ["termo_busca"]: e.target.value})} />
+        </label>
+        <label>
+          Tipo de Captação
+          <select onChange={(e) => setCaptacao({...captacao, ["tipo_captacao"]: e.target.value })}>
+            <option value="Mediata">Mediata</option>
+            <option value="Imediata">Imediata</option>
+            <option value="Espontânea">Espontânea</option>
+          </select>
+        </label>
+        <label>
+          Exequente:
+          <input type="text" onChange={(e) => setCaptacao({...captacao, ["exequente"]: e.target.value})} />
+        </label>
+        <label>
+          Responsável:
+          <input type="text" onChange={(e) => setCaptacao({...captacao, ["responsavel"]: e.target.value})} />
+        </label>
+        <label>
+          Telefone
+          <input type="text" onChange={(e) => setPhone(e.target.value)} />
+        </label>
+        <label>
+          Email
+          <input type="text" onChange={(e) => setEmail(e.target.value)} />
+        </label>
+        <label>
+          Observações:
+          <input type="text" onChange={(e) => setCaptacao({...captacao, ["observacoes"]: e.target.value})} />
+        </label>
+        <label>
+          Ligação Frutífera:
+          <input type="text" onChange={(e) => setCaptacao({...captacao, ["ligacao_frutifera"]: e.target.value})} />
+        </label>
+        <label>
+          Número de Imóveis:
+          <input type="text" onChange={(e) => setCaptacao({...captacao, ["num_imoveis"]: e.target.value})} />
+        </label>
+        <button>Cadastrar Nova Captação</button>
+    </form>
+  )
 }
-
-export default CaptacaoForm;
+export default CaptacaoForm
